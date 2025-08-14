@@ -1,4 +1,4 @@
-package com.example.mviproductsapp.details.view.components
+package com.example.mviproductsapp.peresentation.feature.details.view.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.example.mviproductsapp.R
 import com.example.mviproductsapp.data.model.Product
-import com.example.mviproductsapp.details.DetailsState
+import com.example.mviproductsapp.peresentation.feature.details.DetailsState
 import com.example.productsapp.utils.Styles
 import com.example.productsapp.utils.view.CustomDivider
 

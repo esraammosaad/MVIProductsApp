@@ -1,4 +1,4 @@
-package com.example.mviproductsapp.home.view.components
+package com.example.mviproductsapp.peresentation.feature.home.view.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Spacer
@@ -13,7 +13,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.mviproductsapp.R
 import com.example.mviproductsapp.data.model.Product
-import com.example.mviproductsapp.home.HomeState
+import com.example.mviproductsapp.peresentation.feature.home.HomeState
 import com.example.productsapp.utils.Styles
 
 @Composable

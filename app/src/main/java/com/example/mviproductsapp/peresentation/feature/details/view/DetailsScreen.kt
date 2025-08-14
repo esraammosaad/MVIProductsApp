@@ -16,9 +16,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.mviproductsapp.R
-import com.example.mviproductsapp.details.DetailsState
-import com.example.mviproductsapp.details.view.components.CustomProductDetails
-import com.example.mviproductsapp.details.view_model.DetailsViewModel
+import com.example.mviproductsapp.peresentation.feature.details.DetailsIntent
+import com.example.mviproductsapp.peresentation.feature.details.DetailsState
+import com.example.mviproductsapp.peresentation.feature.details.view.components.CustomProductDetails
+import com.example.mviproductsapp.peresentation.feature.details.view_model.DetailsViewModel
 import com.example.mviproductsapp.utils.view.CustomIdle
 import com.example.productsapp.utils.view.CustomError
 import com.example.productsapp.utils.view.CustomLoading
@@ -31,7 +32,7 @@ fun DetailsScreen(detailsViewModel: DetailsViewModel, onBackClick: () -> Unit) {
     val context = LocalContext.current
 
     LaunchedEffect(Unit) {
-        detailsViewModel.sendIntent(com.example.mviproductsapp.details.DetailsIntent.GetProduct)
+        detailsViewModel.sendIntent(DetailsIntent.GetProduct)
         detailsViewModel.message.collect {
             Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
         }

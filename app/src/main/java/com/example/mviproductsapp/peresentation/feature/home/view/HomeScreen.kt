@@ -1,4 +1,4 @@
-package com.example.mviproductsapp.home.view
+package com.example.mviproductsapp.peresentation.feature.home.view
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.Column
@@ -9,10 +9,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.mviproductsapp.home.HomeIntent
-import com.example.mviproductsapp.home.HomeState
-import com.example.mviproductsapp.home.view.components.CustomProductsGrid
-import com.example.mviproductsapp.home.view_model.HomeViewModel
+import com.example.mviproductsapp.peresentation.feature.home.HomeIntent
+import com.example.mviproductsapp.peresentation.feature.home.HomeState
+import com.example.mviproductsapp.peresentation.feature.home.view.components.CustomProductsGrid
+import com.example.mviproductsapp.peresentation.feature.home.view_model.HomeViewModel
 import com.example.mviproductsapp.utils.view.CustomIdle
 import com.example.productsapp.utils.view.CustomError
 import com.example.productsapp.utils.view.CustomLoading

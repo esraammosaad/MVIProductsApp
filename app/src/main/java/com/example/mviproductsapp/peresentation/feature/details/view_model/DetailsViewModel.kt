@@ -1,13 +1,14 @@
-package com.example.mviproductsapp.home.view_model
+package com.example.mviproductsapp.peresentation.feature.details.view_model
 
 import androidx.lifecycle.AbstractSavedStateViewModelFactory
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.toRoute
 import com.example.mviproductsapp.data.repository.ProductRepository
-import com.example.mviproductsapp.home.HomeIntent
-import com.example.mviproductsapp.home.HomeState
-import kotlinx.coroutines.FlowPreview
+import com.example.mviproductsapp.peresentation.feature.details.DetailsIntent
+import com.example.mviproductsapp.peresentation.feature.details.DetailsState
+import com.example.productsapp.utils.NavigationRoutes
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,65 +18,67 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.launch
 
-@OptIn(FlowPreview::class)
-class HomeViewModel(
+class DetailsViewModel(
     private val productRepository: ProductRepository,
-    private val savedStateHandle: SavedStateHandle
+    saveStateHandle: SavedStateHandle
 ) : ViewModel() {
+    val channelIntent = Channel<DetailsIntent>(Channel.UNLIMITED)
 
-    val channelIntent = Channel<HomeIntent>(Channel.UNLIMITED)
-    private val _uiState = MutableStateFlow<HomeState>(HomeState.Idle)
+    private var _uiState: MutableStateFlow<DetailsState> = MutableStateFlow(DetailsState.Idle)
     val uiState = _uiState.asStateFlow()
 
     private var _message = MutableSharedFlow<String>()
     val message = _message.asSharedFlow()
 
+    val productId = saveStateHandle.toRoute<NavigationRoutes.DetailsScreen>().productId
+
     init {
         processIntent()
     }
 
-    private fun processIntent() {
+    fun processIntent() {
         viewModelScope.launch {
             channelIntent.consumeAsFlow().collect {
                 when (it) {
-                    is HomeIntent.GetProducts -> {
-                        getProducts()
+                    is DetailsIntent.GetProduct -> {
+                        getProductById()
                     }
                 }
             }
         }
     }
 
-    fun sendIntent(intent: HomeIntent) {
+    fun sendIntent(intent: DetailsIntent) {
         viewModelScope.launch {
             channelIntent.send(intent)
         }
     }
-    fun getProducts() {
+
+    fun getProductById() {
         viewModelScope.launch {
             try {
-                _uiState.value = HomeState.Loading
-                val result = productRepository.getProducts()
+                _uiState.value = DetailsState.Loading
+                val result = productRepository.getProductById(productId)
                 result.catch {
-                    _uiState.value = HomeState.Failure(it.message.toString())
+                    _uiState.value = DetailsState.Failure(it.message.toString())
                 }.collect {
-                    _uiState.value = HomeState.Success(it)
+                    _uiState.value = DetailsState.Success(it)
                 }
             } catch (e: Exception) {
-                _uiState.value = HomeState.Failure(e.message.toString())
+                _uiState.value = DetailsState.Failure(e.message.toString())
                 _message.emit(e.message.toString())
             }
         }
     }
 }
 
-class HomeViewModelFactory(private val productRepository: ProductRepository) :
+class DetailsViewModelFactory(private val productRepository: ProductRepository) :
     AbstractSavedStateViewModelFactory() {
     override fun <T : ViewModel> create(
         key: String,
         modelClass: Class<T>,
         handle: SavedStateHandle
     ): T {
-        return HomeViewModel(productRepository, handle) as T
+        return DetailsViewModel(productRepository, handle) as T
     }
 }

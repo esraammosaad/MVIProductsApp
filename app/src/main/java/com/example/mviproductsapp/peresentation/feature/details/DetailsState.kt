@@ -1,4 +1,4 @@
-package com.example.mviproductsapp.details
+package com.example.mviproductsapp.peresentation.feature.details
 
 import com.example.mviproductsapp.data.model.Product
 

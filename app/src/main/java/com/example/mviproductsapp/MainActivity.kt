@@ -12,11 +12,11 @@ import androidx.navigation.compose.rememberNavController
 import com.example.mviproductsapp.data.data_sources.remote.RemoteDataSource
 import com.example.mviproductsapp.data.data_sources.remote.RetrofitFactory
 import com.example.mviproductsapp.data.repository.ProductRepository
-import com.example.mviproductsapp.details.view_model.DetailsViewModel
-import com.example.mviproductsapp.details.view_model.DetailsViewModelFactory
-import com.example.mviproductsapp.home.view.HomeScreen
-import com.example.mviproductsapp.home.view_model.HomeViewModel
-import com.example.mviproductsapp.home.view_model.HomeViewModelFactory
+import com.example.mviproductsapp.peresentation.feature.details.view_model.DetailsViewModel
+import com.example.mviproductsapp.peresentation.feature.details.view_model.DetailsViewModelFactory
+import com.example.mviproductsapp.peresentation.feature.home.view.HomeScreen
+import com.example.mviproductsapp.peresentation.feature.home.view_model.HomeViewModel
+import com.example.mviproductsapp.peresentation.feature.home.view_model.HomeViewModelFactory
 import com.example.productsapp.utils.NavigationRoutes
 
 class MainActivity : ComponentActivity() {

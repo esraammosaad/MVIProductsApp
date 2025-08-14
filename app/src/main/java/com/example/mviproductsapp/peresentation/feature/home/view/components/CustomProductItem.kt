@@ -1,4 +1,4 @@
-package com.example.mviproductsapp.home.view.components
+package com.example.mviproductsapp.peresentation.feature.home.view.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
