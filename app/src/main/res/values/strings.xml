@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">MVIProductsApp</string>
+    <string name="search">Search</string>
+    <string name="menu_icon">Menu Icon</string>
+    <string name="products">Products</string>
+    <string name="products_found">%1$d products found</string>
+    <string name="product_image">Product Image</string>
+    <string name="category">"Category: "</string>
+    <string name="brand">"Brand: "</string>
+    <string name="rating">"Rating: "</string>
+    <string name="stock">"Stock: "</string>
+    <string name="back_icon">Back Icon</string>
+</resources>
