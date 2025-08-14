@@ -14,9 +14,9 @@ import com.example.mviproductsapp.data.data_sources.remote.RetrofitFactory
 import com.example.mviproductsapp.data.repository.ProductRepository
 import com.example.mviproductsapp.details.view_model.DetailsViewModel
 import com.example.mviproductsapp.details.view_model.DetailsViewModelFactory
+import com.example.mviproductsapp.home.view.HomeScreen
 import com.example.mviproductsapp.home.view_model.HomeViewModel
 import com.example.mviproductsapp.home.view_model.HomeViewModelFactory
-import com.example.mviproductsapp.home.view.HomeScreen
 import com.example.productsapp.utils.NavigationRoutes
 
 class MainActivity : ComponentActivity() {
@@ -42,9 +42,11 @@ class MainActivity : ComponentActivity() {
                             backEntry,
                             homeViewModelFactory
                         )[HomeViewModel::class.java]
-                    HomeScreen(homeViewModel= homeViewModel,  navController = navigationController)
+                    HomeScreen(homeViewModel = homeViewModel, onCardClicked = { productId ->
+                        navigationController.navigate(NavigationRoutes.DetailsScreen(productId))
+                    })
                 }
-                composable<NavigationRoutes.DetailsScreen>{ backStackEntry ->
+                composable<NavigationRoutes.DetailsScreen> { backStackEntry ->
                     val detailsViewModelFactory = DetailsViewModelFactory(
                         ProductRepository(
                             RemoteDataSource(
@@ -52,7 +54,10 @@ class MainActivity : ComponentActivity() {
                             )
                         )
                     )
-                    val detailsViewModel = ViewModelProvider(backStackEntry, detailsViewModelFactory)[DetailsViewModel::class.java]
+                    val detailsViewModel = ViewModelProvider(
+                        backStackEntry,
+                        detailsViewModelFactory
+                    )[DetailsViewModel::class.java]
                     DetailsScreen(detailsViewModel = detailsViewModel, onBackClick = {
                         navigationController.popBackStack()
                     })

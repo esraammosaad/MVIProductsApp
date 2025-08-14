@@ -7,5 +7,4 @@ sealed class HomeState {
     data object Loading : HomeState()
     data class Success(val products: List<Product>) : HomeState()
     data class Failure(val message: String) : HomeState()
-    data class SelectProduct(val id: Int) : HomeState()
 }

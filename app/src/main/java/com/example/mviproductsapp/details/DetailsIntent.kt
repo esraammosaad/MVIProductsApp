@@ -1,4 +1,5 @@
 package com.example.mviproductsapp.details
 
-class DetailsIntent {
+sealed class DetailsIntent {
+    data object GetProduct : DetailsIntent()
 }

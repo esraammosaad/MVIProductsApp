@@ -41,15 +41,16 @@ class HomeViewModel(
                     is HomeIntent.GetProducts -> {
                         getProducts()
                     }
-
-                    is HomeIntent.SelectProduct ->{
-                        _uiState.value = HomeState.SelectProduct(it.id)
-                    }
                 }
             }
         }
     }
 
+    fun sendIntent(intent: HomeIntent) {
+        viewModelScope.launch {
+            channelIntent.send(intent)
+        }
+    }
     fun getProducts() {
         viewModelScope.launch {
             try {

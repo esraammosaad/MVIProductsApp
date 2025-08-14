@@ -36,7 +36,6 @@ fun CustomProductItem(
     product: Product,
     onCardClick: () -> Unit
 ) {
-
     Card(
         modifier = modifier
             .fillMaxWidth(0.5f)
