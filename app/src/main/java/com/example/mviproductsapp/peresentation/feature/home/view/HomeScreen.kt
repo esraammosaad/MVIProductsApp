@@ -9,11 +9,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavHostController
+import com.example.mviproductsapp.peresentation.feature.home.HomeEvent
 import com.example.mviproductsapp.peresentation.feature.home.HomeIntent
 import com.example.mviproductsapp.peresentation.feature.home.HomeState
 import com.example.mviproductsapp.peresentation.feature.home.view.components.CustomProductsGrid
 import com.example.mviproductsapp.peresentation.feature.home.view_model.HomeViewModel
 import com.example.mviproductsapp.utils.view.CustomIdle
+import com.example.productsapp.utils.NavigationRoutes
 import com.example.productsapp.utils.view.CustomError
 import com.example.productsapp.utils.view.CustomLoading
 
@@ -21,7 +24,7 @@ import com.example.productsapp.utils.view.CustomLoading
 fun HomeScreen(
     modifier: Modifier = Modifier,
     homeViewModel: HomeViewModel,
-    onCardClicked: (Int) -> Unit,
+    navigationController : NavHostController
 ) {
 
     val context = LocalContext.current
@@ -29,8 +32,15 @@ fun HomeScreen(
 
     LaunchedEffect(Unit) {
         homeViewModel.sendIntent(HomeIntent.GetProducts)
-        homeViewModel.message.collect {
-            Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+        homeViewModel.event.collect {
+            when (it) {
+                is HomeEvent.NavigateToDetails -> {
+                    navigationController.navigate(NavigationRoutes.DetailsScreen(it.productId))
+                }
+                is HomeEvent.ShowToast -> {
+                    Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
+                }
+            }
         }
     }
 
@@ -53,7 +63,9 @@ fun HomeScreen(
             }
 
             is HomeState.Success -> {
-                CustomProductsGrid(uiState.value, onCardClick = onCardClicked)
+                CustomProductsGrid(uiState.value, onCardClick = {
+                    homeViewModel.sendIntent(HomeIntent.ProductClicked(it))
+                })
             }
         }
     }

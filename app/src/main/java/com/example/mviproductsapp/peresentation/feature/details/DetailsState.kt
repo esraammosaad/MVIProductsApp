@@ -1,6 +1,6 @@
 package com.example.mviproductsapp.peresentation.feature.details
 
-import com.example.mviproductsapp.data.model.Product
+import com.example.mviproductsapp.domain.model.Product
 
 sealed class DetailsState {
     data object Idle : DetailsState()

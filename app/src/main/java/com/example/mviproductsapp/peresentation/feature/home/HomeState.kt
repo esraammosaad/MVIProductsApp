@@ -1,6 +1,6 @@
 package com.example.mviproductsapp.peresentation.feature.home
 
-import com.example.mviproductsapp.data.model.Product
+import com.example.mviproductsapp.domain.model.Product
 
 sealed class HomeState {
     data object Idle : HomeState()

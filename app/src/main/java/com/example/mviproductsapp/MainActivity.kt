@@ -9,9 +9,11 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.mviproductsapp.data.data_sources.remote.RemoteDataSource
+import com.example.mviproductsapp.data.data_sources.remote.RemoteDataSourceImpl
 import com.example.mviproductsapp.data.data_sources.remote.RetrofitFactory
-import com.example.mviproductsapp.data.repository.ProductRepository
+import com.example.mviproductsapp.data.repository.ProductRepositoryImpl
+import com.example.mviproductsapp.domain.usecase.GetProductByIdUseCase
+import com.example.mviproductsapp.domain.usecase.GetProductUseCase
 import com.example.mviproductsapp.peresentation.feature.details.view_model.DetailsViewModel
 import com.example.mviproductsapp.peresentation.feature.details.view_model.DetailsViewModelFactory
 import com.example.mviproductsapp.peresentation.feature.home.view.HomeScreen
@@ -31,9 +33,11 @@ class MainActivity : ComponentActivity() {
             ) {
                 composable<NavigationRoutes.HomeScreen> { backEntry ->
                     val homeViewModelFactory = HomeViewModelFactory(
-                        ProductRepository(
-                            RemoteDataSource(
-                                RetrofitFactory.apiService
+                        GetProductUseCase(
+                            ProductRepositoryImpl(
+                                RemoteDataSourceImpl(
+                                    RetrofitFactory.apiService
+                                )
                             )
                         )
                     )
@@ -42,15 +46,18 @@ class MainActivity : ComponentActivity() {
                             backEntry,
                             homeViewModelFactory
                         )[HomeViewModel::class.java]
-                    HomeScreen(homeViewModel = homeViewModel, onCardClicked = { productId ->
-                        navigationController.navigate(NavigationRoutes.DetailsScreen(productId))
-                    })
+                    HomeScreen(
+                        homeViewModel = homeViewModel,
+                        navigationController = navigationController
+                    )
                 }
                 composable<NavigationRoutes.DetailsScreen> { backStackEntry ->
                     val detailsViewModelFactory = DetailsViewModelFactory(
-                        ProductRepository(
-                            RemoteDataSource(
-                                RetrofitFactory.apiService
+                        GetProductByIdUseCase(
+                            ProductRepositoryImpl(
+                                RemoteDataSourceImpl(
+                                    RetrofitFactory.apiService
+                                )
                             )
                         )
                     )

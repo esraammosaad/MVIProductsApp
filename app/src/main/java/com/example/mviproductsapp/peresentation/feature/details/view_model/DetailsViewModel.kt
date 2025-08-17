@@ -5,7 +5,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
-import com.example.mviproductsapp.data.repository.ProductRepository
+import com.example.mviproductsapp.domain.usecase.GetProductByIdUseCase
 import com.example.mviproductsapp.peresentation.feature.details.DetailsIntent
 import com.example.mviproductsapp.peresentation.feature.details.DetailsState
 import com.example.productsapp.utils.NavigationRoutes
@@ -19,7 +19,7 @@ import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.launch
 
 class DetailsViewModel(
-    private val productRepository: ProductRepository,
+    private val getProductByIdUseCase: GetProductByIdUseCase,
     saveStateHandle: SavedStateHandle
 ) : ViewModel() {
     val channelIntent = Channel<DetailsIntent>(Channel.UNLIMITED)
@@ -58,7 +58,7 @@ class DetailsViewModel(
         viewModelScope.launch {
             try {
                 _uiState.value = DetailsState.Loading
-                val result = productRepository.getProductById(productId)
+                val result = getProductByIdUseCase.getProductById(productId)
                 result.catch {
                     _uiState.value = DetailsState.Failure(it.message.toString())
                 }.collect {
@@ -72,13 +72,13 @@ class DetailsViewModel(
     }
 }
 
-class DetailsViewModelFactory(private val productRepository: ProductRepository) :
+class DetailsViewModelFactory(private val getProductByIdUseCase: GetProductByIdUseCase) :
     AbstractSavedStateViewModelFactory() {
     override fun <T : ViewModel> create(
         key: String,
         modelClass: Class<T>,
         handle: SavedStateHandle
     ): T {
-        return DetailsViewModel(productRepository, handle) as T
+        return DetailsViewModel(getProductByIdUseCase, handle) as T
     }
 }

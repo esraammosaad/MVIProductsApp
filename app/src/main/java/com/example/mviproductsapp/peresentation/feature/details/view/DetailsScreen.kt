@@ -66,7 +66,6 @@ fun DetailsScreen(detailsViewModel: DetailsViewModel, onBackClick: () -> Unit) {
             is DetailsState.Failure -> {
                 val error = (uiState.value as DetailsState.Failure).message
                 CustomError(error)
-
             }
 
             is DetailsState.Success -> {
